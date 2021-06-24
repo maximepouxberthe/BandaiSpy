@@ -7,7 +7,26 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
+apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'java-library'
+
+mainClassName = 'Main'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'bandaispy',
+                   'Implementation-Version': version,
+                   'Main-Class': 'com.skampe.bandaispy.Main'
+    }
+    from {
+        configurations.extraLibs
+                    .findAll { !it.name.endsWith('pom') }
+                    .collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
