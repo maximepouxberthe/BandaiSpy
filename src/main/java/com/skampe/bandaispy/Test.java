@@ -18,8 +18,6 @@ public class Test {
 		initScheduler();
 		final MySQLDatabaseInstance database = initDatabase();
 
-		BandaiSpyHelper.createNewImgurAlbum("glb");
-
 	}
 
 	private static void initConstants() {

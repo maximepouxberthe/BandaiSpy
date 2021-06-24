@@ -47,8 +47,6 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.7'
     compile 'com.cloudconvert:cloudconvert-java:1.0.7'
     implementation group: 'commons-io', name: 'commons-io', version: '2.10.0'
-    implementation group: 'com.github.hkirk', name: 'java-html2image', version: '0.9'
-    implementation group: 'org.xhtmlrenderer', name: 'core-renderer', version: 'R8'
     
     
 }
