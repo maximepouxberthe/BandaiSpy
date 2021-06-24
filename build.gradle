@@ -21,6 +21,11 @@ jar {
                    'Implementation-Version': version,
                    'Main-Class': 'com.skampe.bandaispy.Main'
     }
+    from {
+        configurations.extraLibs
+                    .findAll { !it.name.endsWith('pom') }
+                    .collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -29,6 +34,10 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     mavenCentral()
+}
+
+configurations {
+    extraLibs
 }
 
 dependencies {
@@ -41,27 +50,28 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-    compile group: 'org.javatuples', name: 'javatuples', version: '1.2'
-    compile group: 'com.fasterxml', name: 'jackson-module-json-org', version: '0.9.1'
+    extraLibs group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    extraLibs group: 'org.javatuples', name: 'javatuples', version: '1.2'
+    extraLibs group: 'com.fasterxml', name: 'jackson-module-json-org', version: '0.9.1'
     
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+    extraLibs group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    extraLibs group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
     
-    implementation 'com.squareup.okhttp3:okhttp:3.14.6'
+    extraLibs 'com.squareup.okhttp3:okhttp:3.14.6'
     
-    compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_204'
-    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+    extraLibs group: 'net.dv8tion', name: 'JDA', version: '4.2.0_204'
+    extraLibs group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
     
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
-    compile 'org.apache.httpcomponents:httpclient:4.5.13'
-    implementation group: 'gui.ava', name: 'html2image', version: '0.9'
-    compile 'com.pdfcrowd:pdfcrowd:5.1.1'
-    compile 'it.grabz.grabzit:grabzit:3.4.5.1'
-    compile 'org.twitter4j:twitter4j-core:4.0.7'
-    compile 'com.cloudconvert:cloudconvert-java:1.0.7'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.10.0'
+    extraLibs group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+    extraLibs 'org.apache.httpcomponents:httpclient:4.5.13'
+    extraLibs group: 'gui.ava', name: 'html2image', version: '0.9'
+    extraLibs 'com.pdfcrowd:pdfcrowd:5.1.1'
+    extraLibs 'it.grabz.grabzit:grabzit:3.4.5.1'
+    extraLibs 'org.twitter4j:twitter4j-core:4.0.7'
+    extraLibs 'com.cloudconvert:cloudconvert-java:1.0.7'
+    extraLibs group: 'commons-io', name: 'commons-io', version: '2.10.0'
     
-    
+    configurations.compile.extendsFrom(configurations.extraLibs)    
 }
-
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
