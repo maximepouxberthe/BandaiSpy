@@ -21,11 +21,6 @@ jar {
                    'Implementation-Version': version,
                    'Main-Class': 'com.skampe.bandaispy.Main'
     }
-    from {
-        configurations.extraLibs
-                    .findAll { !it.name.endsWith('pom') }
-                    .collect { it.isDirectory() ? it : zipTree(it) }
-    }
 }
 
 // In this section you declare where to find the dependencies of your project
