@@ -23,6 +23,7 @@ public class HtmlCssToImageHelper {
 		parameters.put("html", html);
 		parameters.put("css", css);
 		parameters.put("ms_delay", "5000");
+		parameters.put("device_scale", "1");
 
 		final String credential = Credentials.basic("c30175e4-8133-4c1a-a16b-efc357138bc7",
 				"07df92a5-022e-46ae-9f65-db0b1a7fc6cc");
