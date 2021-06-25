@@ -18,7 +18,7 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 
 	@Override
 	protected void scheduleWork() {
-		final int subListsSize = urls.size() / corePoolSize + 1;
+		final int subListsSize = urls.size() / corePoolSize;
 		for (int i = 0; i < corePoolSize; i++) {
 			this.scheduleBucket(new HttpRequestBucket(
 					urls.subList(i * subListsSize, Math.min((i + 1) * subListsSize, urls.size())), this));

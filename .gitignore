@@ -1,1 +1,10 @@
 conf.json
+.classpath
+.gradle/
+.project
+.settings/
+bin/
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
