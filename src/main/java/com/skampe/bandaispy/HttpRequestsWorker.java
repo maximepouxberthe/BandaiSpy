@@ -18,10 +18,20 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 
 	@Override
 	protected void scheduleWork() {
-		final int subListsSize = urls.size() / corePoolSize;
+
+		int remaider = urls.size() % corePoolSize;
+		final int number = urls.size() / corePoolSize;
+		int offset = 0;
 		for (int i = 0; i < corePoolSize; i++) {
-			this.scheduleBucket(new HttpRequestBucket(
-					urls.subList(i * subListsSize, Math.min((i + 1) * subListsSize, urls.size())), this));
+			if (remaider > 0) {
+				this.scheduleBucket(
+						new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset + 1), this));
+				remaider--;
+				offset++;
+			} else {
+				this.scheduleBucket(
+						new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset), this));
+			}
 		}
 	}
 
