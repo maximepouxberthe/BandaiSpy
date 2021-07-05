@@ -150,8 +150,10 @@ public class Main {
 
 				urlsGlb = BandaiSpyHelper.getUrlsOfMissingIcons(BandaiSpyConstants.GLB_SERVER);
 				urlsJpn = BandaiSpyHelper.getUrlsOfMissingIcons(BandaiSpyConstants.JPN_SERVER);
+
+				Thread.sleep(10000);
 			} while (!urlsGlb.isEmpty() && !urlsJpn.isEmpty());
-		} catch (final SQLException e) {
+		} catch (final SQLException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
