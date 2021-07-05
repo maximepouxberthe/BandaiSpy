@@ -24,13 +24,17 @@ public class MySQLDatabaseInstance {
 		databasePassword = dbPassword;
 	}
 
-	private void connect(final int nbRetries) throws SQLException, InterruptedException {
+	private void connect(final int nbRetries) throws SQLException {
 		try {
 			connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
 		} catch (final CommunicationsException e) {
 			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries));
 			if (nbRetries < 50) {
-				Thread.sleep((long) 100 * nbRetries);
+				try {
+					Thread.sleep((long) 100 * nbRetries);
+				} catch (final InterruptedException e1) {
+					e1.printStackTrace();
+				}
 				connect(nbRetries + 1);
 			}
 		}
@@ -41,7 +45,7 @@ public class MySQLDatabaseInstance {
 			if (connection != null) {
 				connection.close();
 			}
-			connect();
+			connect(0);
 		}
 		return connection;
 	}
