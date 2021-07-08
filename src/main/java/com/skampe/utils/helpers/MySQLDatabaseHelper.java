@@ -7,11 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 import com.skampe.utils.constants.CommonConstants;
 import com.skampe.utils.exceptions.NotImplementedException;
 import com.skampe.utils.structures.MySQLDatabaseInstance;
 
 public class MySQLDatabaseHelper {
+
+	private static final Logger LOGGER = LogManager.getLogger(MySQLDatabaseHelper.class);
 
 	private MySQLDatabaseHelper() {
 		// Hide public constructor
@@ -23,8 +29,10 @@ public class MySQLDatabaseHelper {
 		if (conn != null) {
 			try (final PreparedStatement ps = conn.prepareStatement(query)) {
 				ps.executeUpdate();
-			} catch (final SQLException e) {
-				e.printStackTrace();
+			} catch (final CommunicationsException e) {
+				// Retry, the instance will try to reconnect
+				LOGGER.warn("Failed to execute query. Retrying (the database instance will try to reconnect)", e);
+				doInsertOrUpdateOrDeleteQuery(instance, query);
 			}
 		}
 	}
@@ -36,8 +44,10 @@ public class MySQLDatabaseHelper {
 			for (final String query : queries) {
 				try (final PreparedStatement ps = conn.prepareStatement(query)) {
 					ps.executeUpdate();
-				} catch (final SQLException e) {
-					e.printStackTrace();
+				} catch (final CommunicationsException e) {
+					// Retry (only the failed query), the instance will try to reconnect
+					LOGGER.warn("Failed to execute query. Retrying (the database instance will try to reconnect)", e);
+					doInsertOrUpdateOrDeleteQuery(instance, query);
 				}
 			}
 		}
@@ -70,6 +80,10 @@ public class MySQLDatabaseHelper {
 							String.format("%s type is not implemented right now.", columnType.getName()));
 				}
 
+			} catch (final CommunicationsException e) {
+				// Retry, the instance will try to reconnect
+				LOGGER.warn("Failed to execute query. Retrying (the database instance will try to reconnect)", e);
+				return doSelectQuery(instance, query, column, columnType);
 			}
 		}
 		return returnValues;

@@ -28,14 +28,12 @@ public class MySQLDatabaseInstance {
 		try {
 			connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
 		} catch (final CommunicationsException e) {
-			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries));
-			if (nbRetries < 50) {
-				try {
-					Thread.sleep((long) 100 * nbRetries);
-				} catch (final InterruptedException e1) {
-					e1.printStackTrace();
-				}
+			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries), e);
+			try {
+				Thread.sleep(Math.min(5000, (long) 100 * nbRetries));
 				connect(nbRetries + 1);
+			} catch (final InterruptedException e1) {
+				LOGGER.error("Failed to wait to reconnect later to DB.", e);
 			}
 		}
 	}

@@ -42,7 +42,7 @@ public class HttpRequestBucket implements Work {
 			try {
 				testUrl(url);
 			} catch (final InterruptedIOException ie) {
-				LOGGER.warn("Bucket %s has been interrupted", Thread.currentThread().getName());
+				LOGGER.warn(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()));
 				// End this thread
 				return;
 			} catch (final IOException e) {
