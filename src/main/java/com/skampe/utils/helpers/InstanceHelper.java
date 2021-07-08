@@ -2,7 +2,12 @@ package com.skampe.utils.helpers;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class InstanceHelper {
+
+	private static final Logger LOGGER = LogManager.getLogger(InstanceHelper.class);
 
 	private InstanceHelper() {
 		// Hide public constructor
@@ -12,7 +17,7 @@ public class InstanceHelper {
 		try {
 			return Class.forName(className).newInstance();
 		} catch (final IllegalAccessException | InstantiationException | ClassNotFoundException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get instance", e);
 		}
 		return null;
 	}
@@ -24,7 +29,7 @@ public class InstanceHelper {
 			return clazz.getConstructor(paramsTypes).newInstance(params);
 		} catch (final ClassNotFoundException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get instance with params", e);
 		}
 		return null;
 	}
@@ -36,7 +41,7 @@ public class InstanceHelper {
 				return childClass.newInstance();
 			}
 		} catch (final ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get instance of parent class", e);
 		}
 		return null;
 	}
@@ -50,7 +55,7 @@ public class InstanceHelper {
 			}
 		} catch (final ClassNotFoundException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get instance of parent class with params", e);
 		}
 		return null;
 	}

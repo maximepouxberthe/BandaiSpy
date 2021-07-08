@@ -154,7 +154,7 @@ public class Main {
 				Thread.sleep(10000);
 			} while (!urlsGlb.isEmpty() && !urlsJpn.isEmpty());
 		} catch (final SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to launch BandaiSpy", e);
 		}
 	}
 
@@ -168,7 +168,7 @@ public class Main {
 			worker.awaitTerminationOrForceStop(
 					ConstantsHelper.get(ConstantsProperties.MAX_EXPECTED_DURATION_MILLIS_PROPERTY, Integer.class));
 		} catch (final InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to launch worker", e);
 		}
 	}
 }

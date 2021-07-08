@@ -156,7 +156,7 @@ public class BandaiSpyHelper {
 		try {
 			overviewUrl = HtmlCssToImageHelper.buildImage(buildHtmlOverview(server), BandaiSpyConstants.OVERVIEW_CSS);
 		} catch (IOException | SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to build overview", e);
 		}
 		LOGGER.info(String.format("Overview for %s version generated at %s", server, overviewUrl));
 		byte[] overview = null;
@@ -172,7 +172,7 @@ public class BandaiSpyHelper {
 			}
 			response.close();
 		} catch (final IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get overview data from overview url", e);
 		}
 
 		if (!StringUtils.isBlank(imgurUrl)) {
@@ -195,7 +195,7 @@ public class BandaiSpyHelper {
 			}
 			BandaiSpySQLRequestHelper.clearIconsToDo(database, server);
 		} catch (final SQLException | IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to publish one or more icons", e);
 		}
 	}
 
@@ -224,7 +224,7 @@ public class BandaiSpyHelper {
 				}
 			}
 		} catch (final TwitterException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to publish tweet", e);
 		}
 	}
 
@@ -239,7 +239,7 @@ public class BandaiSpyHelper {
 				DiscordBotHelper.sendMessage(discordBot, (String) channelId, String.format("<%s>", imgurUrl));
 			}
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get registered discord channels for imgur urls from DB", e);
 		}
 	}
 
@@ -258,7 +258,7 @@ public class BandaiSpyHelper {
 						String.format("%s_Overview.png", version.toUpperCase()));
 			}
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get registered discord channels for overviews from DB", e);
 		}
 	}
 
@@ -268,7 +268,7 @@ public class BandaiSpyHelper {
 				DiscordBotHelper.sendMessage(discordBot, (String) channelId, icon, "icon.png");
 			}
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to get registered discord channels for icons from DB", e);
 		}
 	}
 
@@ -287,7 +287,7 @@ public class BandaiSpyHelper {
 						overviewUrl);
 			}
 		} catch (final SQLException | IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to add overview to imgur album", e);
 		}
 
 	}
@@ -302,7 +302,7 @@ public class BandaiSpyHelper {
 						iconUrl);
 			}
 		} catch (final SQLException | IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to add icon to imgur album", e);
 		}
 
 	}

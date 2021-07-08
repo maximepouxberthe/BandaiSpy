@@ -47,7 +47,7 @@ public class DiscordBot extends ListenerAdapter {
 		try {
 			scheduleExceptionsCatcher("0 * * ? * * *");
 		} catch (final SchedulerException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to schedule exceptions catcher", e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class DiscordBot extends ListenerAdapter {
 		try {
 			scheduleExceptionsCatcher(cronExpressionForExecutorsCleaning);
 		} catch (final SchedulerException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to schedule exceptions catcher", e);
 		}
 	}
 
