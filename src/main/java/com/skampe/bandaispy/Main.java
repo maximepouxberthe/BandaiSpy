@@ -150,10 +150,8 @@ public class Main {
 
 				urlsGlb = BandaiSpyHelper.getUrlsOfMissingIcons(BandaiSpyConstants.GLB_SERVER);
 				urlsJpn = BandaiSpyHelper.getUrlsOfMissingIcons(BandaiSpyConstants.JPN_SERVER);
-
-				Thread.sleep(10000);
 			} while (!urlsGlb.isEmpty() && !urlsJpn.isEmpty());
-		} catch (final SQLException | InterruptedException e) {
+		} catch (final SQLException e) {
 			LOGGER.error("Failed to launch BandaiSpy", e);
 		}
 	}

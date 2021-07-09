@@ -45,9 +45,15 @@ public class HttpRequestBucket implements Work {
 			try {
 				testUrl(url);
 			} catch (final InterruptedIOException ie) {
-				LOGGER.warn(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()), ie);
-				// End this thread
-				return;
+				LOGGER.warn(String.format("Bucket %s has been interrupted, silently retrying",
+						Thread.currentThread().getName()), ie);
+				// might randomly happen, retry
+				try {
+					LOGGER.warn(String.format("machin truc", url), ie);
+					testUrl(url);
+				} catch (final IOException e1) {
+					LOGGER.error(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()), e1);
+				}
 			} catch (final SSLException | SocketException e) {
 				// might randomly happen, retry
 				try {
