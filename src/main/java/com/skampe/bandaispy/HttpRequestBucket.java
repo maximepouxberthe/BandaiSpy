@@ -46,7 +46,7 @@ public class HttpRequestBucket implements Work {
 				// End this thread
 				return;
 			} catch (final IOException e) {
-				LOGGER.error("Failed to test url", e);
+				LOGGER.error(String.format("Failed to test url %s", url), e);
 			}
 		}
 		if (workerParent.stopBuckets()) {
