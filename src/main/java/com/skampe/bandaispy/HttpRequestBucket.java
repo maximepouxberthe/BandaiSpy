@@ -2,8 +2,11 @@ package com.skampe.bandaispy;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.net.SocketException;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.net.ssl.SSLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,9 +45,17 @@ public class HttpRequestBucket implements Work {
 			try {
 				testUrl(url);
 			} catch (final InterruptedIOException ie) {
-				LOGGER.warn(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()));
+				LOGGER.warn(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()), ie);
 				// End this thread
 				return;
+			} catch (final SSLException | SocketException e) {
+				// might randomly happen, retry
+				try {
+					LOGGER.warn(String.format("Failed to test url %s, silently retrying", url), e);
+					testUrl(url);
+				} catch (final IOException e1) {
+					LOGGER.error(String.format("Failed to test url %s", url), e1);
+				}
 			} catch (final IOException e) {
 				LOGGER.error(String.format("Failed to test url %s", url), e);
 			}
