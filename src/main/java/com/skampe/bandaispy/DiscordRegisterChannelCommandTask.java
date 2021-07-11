@@ -31,12 +31,12 @@ public class DiscordRegisterChannelCommandTask extends DiscordCommandTask {
 		final String arg1 = args.get(0);
 		final String arg2 = args.get(1);
 
-		if (!arg1.toLowerCase().matches(BandaiSpyConstants.SERVERS_REGEX)) {
+		if (!arg1.matches(BandaiSpyConstants.SERVERS_REGEX)) {
 			LOGGER.info("Invalid parameter version");
 			return false;
 		}
 
-		if (!arg2.toLowerCase().matches(BandaiSpyConstants.REGISTERCHANNEL_COMMAND_ALLOWED_TYPES_REGEX)) {
+		if (!arg2.matches(BandaiSpyConstants.REGISTERCHANNEL_COMMAND_ALLOWED_TYPES_REGEX)) {
 			LOGGER.info("Invalid parameter type");
 			return false;
 		}
