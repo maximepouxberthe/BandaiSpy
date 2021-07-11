@@ -111,7 +111,7 @@ public class Main {
 		final List<DiscordCommand> commands = new ArrayList<>();
 		commands.add(
 				new DiscordCommand("$bandaiSpy registerChannel", 2, DiscordRegisterChannelCommandTask.class.getName(),
-						Arrays.asList(), Arrays.asList(Permission.MANAGE_SERVER)));
+						Arrays.asList(), Arrays.asList(Permission.ADMINISTRATOR, Permission.MANAGE_SERVER)));
 
 		final BandaiSpyDiscordBot discordBot = new BandaiSpyDiscordBot(commands);
 		try {

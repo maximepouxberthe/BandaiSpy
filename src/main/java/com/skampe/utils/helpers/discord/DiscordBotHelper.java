@@ -63,7 +63,7 @@ public class DiscordBotHelper {
 				return false;
 			}
 		} else if (!neededPermissions.isEmpty()) {
-			if (DiscordHelper.hasPermissions(server, author, neededPermissions)) {
+			if (DiscordHelper.hasAtLeastOnePermission(server, author, neededPermissions)) {
 				return true;
 			} else {
 				if (LOGGER.isDebugEnabled()) {
