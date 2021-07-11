@@ -43,25 +43,7 @@ public class HttpRequestBucket implements Work {
 		while (iterator.hasNext() && !workerParent.stopBuckets()) {
 			final String url = iterator.next();
 			try {
-				testUrl(url);
-			} catch (final InterruptedIOException ie) {
-				LOGGER.warn(String.format("Bucket %s has been interrupted, silently retrying",
-						Thread.currentThread().getName()), ie);
-				// might randomly happen, retry
-				try {
-					LOGGER.warn(String.format("machin truc", url), ie);
-					testUrl(url);
-				} catch (final IOException e1) {
-					LOGGER.error(String.format("Bucket %s has been interrupted", Thread.currentThread().getName()), e1);
-				}
-			} catch (final SSLException | SocketException e) {
-				// might randomly happen, retry
-				try {
-					LOGGER.warn(String.format("Failed to test url %s, silently retrying", url), e);
-					testUrl(url);
-				} catch (final IOException e1) {
-					LOGGER.error(String.format("Failed to test url %s", url), e1);
-				}
+				testUrl(url, 0);
 			} catch (final IOException e) {
 				LOGGER.error(String.format("Failed to test url %s", url), e);
 			}
@@ -80,20 +62,29 @@ public class HttpRequestBucket implements Work {
 		}
 	}
 
-	private void testUrl(final String url) throws IOException {
-		if (JavaNetHelper.getStatus(url) == HttpStatusConstants.SC_200_OK) {
-			final Response response = OkHttpHelper.executeRequest(
-					OkHttpHelper.createRequest().withUrl(url).withMethod(OkHttpConstants.METHOD_GET).build());
-			if (OkHttpHelper.getHttpCodeFromResponse(response) == HttpStatusConstants.SC_200_OK) {
-				final byte[] data = OkHttpHelper.getBodyFromResponseAsBytes(response);
-				if (FileHelper.isValidPNG(data)) {
-					LOGGER.info(String.format("Found an icon at %s url on %s bucket", url,
-							Thread.currentThread().getName()));
-					BandaiSpyHelper.setNewIconToDo(url);
-					workerParent.setStopBuckets(true);
+	private void testUrl(final String url, final int tries) throws IOException {
+		try {
+			if (JavaNetHelper.getStatus(url) == HttpStatusConstants.SC_200_OK) {
+				final Response response = OkHttpHelper.executeRequest(
+						OkHttpHelper.createRequest().withUrl(url).withMethod(OkHttpConstants.METHOD_GET).build());
+				if (OkHttpHelper.getHttpCodeFromResponse(response) == HttpStatusConstants.SC_200_OK) {
+					final byte[] data = OkHttpHelper.getBodyFromResponseAsBytes(response);
+					if (FileHelper.isValidPNG(data)) {
+						LOGGER.info(String.format("Found an icon at %s url on %s bucket", url,
+								Thread.currentThread().getName()));
+						BandaiSpyHelper.setNewIconToDo(url);
+						workerParent.setStopBuckets(true);
+					}
 				}
+				response.close();
 			}
-			response.close();
+		} catch (final SSLException | SocketException | InterruptedIOException e) {
+			if (tries < 5) {
+				LOGGER.warn(String.format("Failed to test url %s, silently retrying", url));
+				testUrl(url, tries + 1);
+			} else {
+				LOGGER.error(String.format("Failed to test url %s", url), e);
+			}
 		}
 	}
 
