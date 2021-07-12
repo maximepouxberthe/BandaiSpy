@@ -66,12 +66,9 @@ public class DiscordBotHelper {
 			if (DiscordHelper.hasAtLeastOnePermission(server, author, neededPermissions)) {
 				return true;
 			} else {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(String.format(
-							"%s not allowed to perform %s because this user doesn't have required permissions",
-							DiscordLogHelper.getUserDescription(author),
-							DiscordLogHelper.getCommandDescription(command)));
-				}
+				LOGGER.debug(String.format(
+						"%s not allowed to perform %s because this user doesn't have required permissions",
+						DiscordLogHelper.getUserDescription(author), DiscordLogHelper.getCommandDescription(command)));
 				return false;
 			}
 		} else {

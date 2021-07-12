@@ -86,8 +86,9 @@ public class DiscordBot extends ListenerAdapter {
 			for (final DiscordCommand command : commands) {
 				if (message.startsWith(command.getCommand())) {
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("Event %s matches a command: %s", DiscordLogHelper.getEventDescription(event),
-								DiscordLogHelper.getCommandDescription(command));
+						LOGGER.debug(String.format("Event %s matches a command: %s",
+								DiscordLogHelper.getEventDescription(event),
+								DiscordLogHelper.getCommandDescription(command)));
 					}
 					final List<String> args = DiscordBotHelper.getArgs(event, command);
 					if (DiscordBotHelper.isCommandAllowed(event, command)
