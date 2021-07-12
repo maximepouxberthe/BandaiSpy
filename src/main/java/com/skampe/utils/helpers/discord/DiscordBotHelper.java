@@ -14,6 +14,7 @@ import com.skampe.utils.structures.DiscordCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -27,9 +28,10 @@ public class DiscordBotHelper {
 		// Hide public constructor
 	}
 
-	public static void buildBot(final DiscordBot bot, final String botToken) throws LoginException {
+	public static void buildBot(final DiscordBot bot, final String botToken, final String description)
+			throws LoginException {
 		final JDABuilder builder = JDABuilder.createDefault(botToken);
-
+		builder.setActivity(Activity.playing(description));
 		builder.addEventListeners(bot);
 		final JDA jda = builder.build();
 		DiscordHelper.setJDA(jda);

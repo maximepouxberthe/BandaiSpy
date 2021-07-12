@@ -121,7 +121,8 @@ public class Main {
 		final BandaiSpyDiscordBot discordBot = new BandaiSpyDiscordBot(commands);
 		try {
 			DiscordBotHelper.buildBot(discordBot,
-					ConstantsHelper.get(ConstantsProperties.BOT_TOKEN_PROPERTY, String.class));
+					ConstantsHelper.get(ConstantsProperties.BOT_TOKEN_PROPERTY, String.class),
+					BandaiSpyConstants.BOT_DESCRIPTION);
 			BandaiSpyHelper.setDiscordBot(discordBot);
 			LOGGER.info("Discord bot initiated");
 			return true;
