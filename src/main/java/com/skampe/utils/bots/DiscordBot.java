@@ -91,6 +91,7 @@ public class DiscordBot extends ListenerAdapter {
 								DiscordLogHelper.getCommandDescription(command)));
 					}
 					final List<String> args = DiscordBotHelper.getArgs(event, command);
+					LOGGER.debug(String.format("Nb args: %s", args.size()));
 					if (DiscordBotHelper.isCommandAllowed(event, command)
 							&& command.getNbExpectedArguments() == args.size()) {
 						launchCommandTask(command, event, args);

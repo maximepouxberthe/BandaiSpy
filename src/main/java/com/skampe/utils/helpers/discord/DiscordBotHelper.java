@@ -79,6 +79,7 @@ public class DiscordBotHelper {
 	public static List<String> getArgs(final MessageReceivedEvent event, final DiscordCommand command) {
 		final String message = event.getMessage().getContentRaw();
 		final String args = message.replace(command.getCommand(), "").substring(1);
+		LOGGER.debug(String.format("'%s' args", args));
 		return Arrays.asList(args.split(" "));
 	}
 
