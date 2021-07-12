@@ -90,11 +90,16 @@ public class DiscordBot extends ListenerAdapter {
 								DiscordLogHelper.getEventDescription(event),
 								DiscordLogHelper.getCommandDescription(command)));
 					}
-					final List<String> args = DiscordBotHelper.getArgs(event, command);
-					LOGGER.debug(String.format("Nb args: %s", args.size()));
-					if (DiscordBotHelper.isCommandAllowed(event, command)
-							&& command.getNbExpectedArguments() == args.size()) {
-						launchCommandTask(command, event, args);
+					if (command.getNbExpectedArguments() != 0) {
+						final List<String> args = DiscordBotHelper.getArgs(event, command);
+						if (DiscordBotHelper.isCommandAllowed(event, command)
+								&& command.getNbExpectedArguments() == args.size()) {
+							launchCommandTask(command, event, args);
+						}
+					} else {
+						if (DiscordBotHelper.isCommandAllowed(event, command)) {
+							launchCommandTask(command, event, new ArrayList<>());
+						}
 					}
 				}
 			}
