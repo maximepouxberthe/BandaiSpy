@@ -403,4 +403,16 @@ public class BandaiSpyHelper {
 			return false;
 		}
 	}
+
+	public static void sendHelp(final String channelId) {
+		DiscordBotHelper.sendMessage(discordBot, channelId, BandaiSpyConstants.HELP_MESSAGE);
+	}
+
+	public static void unregisterChannel(final String channelId) {
+		try {
+			BandaiSpySQLRequestHelper.unregisterChannel(database, channelId);
+		} catch (final SQLException e) {
+			LOGGER.error(String.format("Failed to unregister channel %s", channelId), e);
+		}
+	}
 }

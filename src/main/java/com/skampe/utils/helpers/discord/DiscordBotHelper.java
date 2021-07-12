@@ -84,4 +84,5 @@ public class DiscordBotHelper {
 		final String args = message.replace(command.getCommand(), "").substring(1);
 		return Arrays.asList(args.split(" "));
 	}
+
 }

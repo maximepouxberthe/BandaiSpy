@@ -22,6 +22,7 @@ import com.skampe.utils.helpers.discord.DiscordLogHelper;
 import com.skampe.utils.structures.DiscordCommand;
 import com.skampe.utils.structures.DiscordCommandTask;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -127,6 +128,10 @@ public class DiscordBot extends ListenerAdapter {
 					String.format("Tried to send a message to %s channel but didn't have the rights", channel.getId()));
 		}
 
+	}
+
+	public void react(final Message message, final String emoteUnicode) {
+		message.addReaction(emoteUnicode).queue();
 	}
 
 	public class DiscordBotExceptionsCatcherJob implements Job {

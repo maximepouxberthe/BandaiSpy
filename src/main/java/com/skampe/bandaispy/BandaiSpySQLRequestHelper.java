@@ -141,6 +141,12 @@ public class BandaiSpySQLRequestHelper {
 
 	}
 
+	public static void unregisterChannel(final MySQLDatabaseInstance instance, final String channelId)
+			throws SQLException {
+		MySQLDatabaseHelper.doInsertOrUpdateOrDeleteQuery(instance,
+				String.format("Delete from registeredChannels where channelId = %s", channelId));
+	}
+
 	public static void setIconToDo(final MySQLDatabaseInstance instance, final String server, final String iconUrl,
 			final String iconId) throws SQLException {
 		MySQLDatabaseHelper.doInsertOrUpdateOrDeleteQuery(instance,

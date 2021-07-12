@@ -28,7 +28,7 @@ public class MySQLDatabaseInstance {
 		try {
 			connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
 		} catch (final CommunicationsException e) {
-			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries), e);
+			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries));
 			try {
 				Thread.sleep(Math.min(5000, (long) 100 * nbRetries));
 				connect(nbRetries + 1);
