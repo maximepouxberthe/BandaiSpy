@@ -26,14 +26,11 @@
     </RollingFile>
   </Appenders>
   <Loggers>
-    <Logger name="APP" level="info" additivity="false">
+    <Logger name="INFO" level="info" additivity="false">
       <AppenderRef ref="APP"/>
     </Logger>
-    <Logger name="TRACE" level="trace" additivity="false">
+    <Root level="trace">
       <AppenderRef ref="TRACE"/>
-    </Logger>
-    <Root level="debug">
-      <AppenderRef ref="Console"/>
     </Root>
   </Loggers>
 </Configuration>
