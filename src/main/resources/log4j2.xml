@@ -10,7 +10,7 @@
         <CronTriggeringPolicy schedule="0 0 0 * * ?" evaluateOnStartup="true" />
       </Policies>
       <DefaultRolloverStrategy />
-      <LevelRangeFilter minLevel="INFO" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+      <LevelRangeFilter minLevel="ERROR" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
     </RollingFile>
     <RollingFile name="TraceFile" fileName="/var/log/bandaispy/trace.log"
                  filePattern="/var/log/bandaispy/trace-%d{yyyy-MM-dd}.log.gz">
@@ -21,8 +21,8 @@
         <CronTriggeringPolicy schedule="0 0 0 * * ?" evaluateOnStartup="true" />
       </Policies>
       <DefaultRolloverStrategy />
+      <LevelRangeFilter minLevel="ERROR" maxLevel="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
     </RollingFile>
-    <LevelRangeFilter minLevel="TRACE" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
   </Appenders>
   <Loggers>
     <Root level="all">
