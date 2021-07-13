@@ -35,10 +35,9 @@ public class HttpRequestBucket implements Work {
 
 	@Override
 	public void run() {
-		/*
-		 * LOGGER.debug(String.format("Starting the work on %s bucket with %s urls",
-		 * Thread.currentThread().getName(), urls.size()));
-		 */
+
+		LOGGER.debug(String.format("Starting the work on %s bucket with %s urls", Thread.currentThread().getName(),
+				urls.size()));
 		final Iterator<String> iterator = urls.iterator();
 		while (iterator.hasNext() && !workerParent.stopBuckets()) {
 			final String url = iterator.next();
@@ -52,10 +51,9 @@ public class HttpRequestBucket implements Work {
 			LOGGER.debug(String.format("End of the work on %s bucket. The worker parent stopped the bucket",
 					Thread.currentThread().getName()));
 		} else {
-			/*
-			 * LOGGER.debug(String.format("End of the work on %s bucket. %s urls requested",
-			 * Thread.currentThread().getName(), urls.size()));
-			 */
+
+			LOGGER.debug(String.format("End of the work on %s bucket. %s urls requested",
+					Thread.currentThread().getName(), urls.size()));
 		}
 	}
 
