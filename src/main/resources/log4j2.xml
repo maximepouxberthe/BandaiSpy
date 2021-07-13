@@ -25,7 +25,7 @@
     <LevelRangeFilter minLevel="TRACE" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
   </Appenders>
   <Loggers>
-    <Root level="trace">
+    <Root level="all">
       <AppenderRef ref="AppFile"/>
       <AppenderRef ref="TraceFile"/>
     </Root>
