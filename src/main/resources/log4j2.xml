@@ -29,11 +29,11 @@
     <Root level="debug">
       <AppenderRef ref="Console"/>
     </Root>
-    <Root level="info">
+    <Logger level="info">
       <AppenderRef ref="APP"/>
-    </Root>
-    <Root level="trace">
+    </Logger>
+    <Logger level="trace">
       <AppenderRef ref="TRACE"/>
-    </Root>
+    </Logger>
   </Loggers>
 </Configuration>
