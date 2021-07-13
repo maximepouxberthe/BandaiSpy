@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
   <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-    </Console>
-    <RollingFile name="APP" fileName="/var/log/bandaispy/app.log"
+    <RollingFile name="AppFile" fileName="/var/log/bandaispy/app.log"
                  filePattern="/var/log/bandaispy/app-%d{yyyy-MM-dd}.log.gz">
       <PatternLayout>
         <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
@@ -15,7 +12,7 @@
       <DefaultRolloverStrategy />
       <LevelRangeFilter minLevel="INFO" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
     </RollingFile>
-    <RollingFile name="TRACE" fileName="/var/log/bandaispy/trace.log"
+    <RollingFile name="TraceFile" fileName="/var/log/bandaispy/trace.log"
                  filePattern="/var/log/bandaispy/trace-%d{yyyy-MM-dd}.log.gz">
       <PatternLayout>
         <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
@@ -29,8 +26,8 @@
   </Appenders>
   <Loggers>
     <Root level="trace">
-      <AppenderRef ref="TRACE"/>
-      <AppenderRef ref="APP"/>
+      <AppenderRef ref="AppFile"/>
+      <AppenderRef ref="TraceFile"/>
     </Root>
   </Loggers>
 </Configuration>
