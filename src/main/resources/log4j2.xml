@@ -1,33 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-  <Appenders>
-    <RollingFile name="AppFile" fileName="/var/log/bandaispy/app.log"
-                 filePattern="/var/log/bandaispy/app-%d{yyyy-MM-dd}.log.gz">
-      <PatternLayout>
-        <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
-      </PatternLayout>
-      <Policies>
-        <CronTriggeringPolicy schedule="0 0 0 * * ?" evaluateOnStartup="true" />
-      </Policies>
-      <DefaultRolloverStrategy />
-      <LevelRangeFilter minLevel="ERROR" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-    </RollingFile>
-    <RollingFile name="TraceFile" fileName="/var/log/bandaispy/trace.log"
-                 filePattern="/var/log/bandaispy/trace-%d{yyyy-MM-dd}.log.gz">
-      <PatternLayout>
-        <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
-      </PatternLayout>
-      <Policies>
-        <CronTriggeringPolicy schedule="0 0 0 * * ?" evaluateOnStartup="true" />
-      </Policies>
-      <DefaultRolloverStrategy />
-      <LevelRangeFilter minLevel="ERROR" maxLevel="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
-    </RollingFile>
-  </Appenders>
-  <Loggers>
-    <Root level="all">
-      <AppenderRef ref="AppFile"/>
-      <AppenderRef ref="TraceFile"/>
-    </Root>
-  </Loggers>
+	<Appenders>
+		<RollingFile name="AppFile"
+			fileName="/var/log/bandaispy/app.log"
+			filePattern="/var/log/bandaispy/app-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<CronTriggeringPolicy schedule="0 0 0 * * ?"
+					evaluateOnStartup="true" />
+			</Policies>
+			<DefaultRolloverStrategy />
+			<LevelRangeFilter minLevel="ERROR" maxLevel="INFO"
+				onMatch="ACCEPT" onMismatch="DENY" />
+		</RollingFile>
+		<RollingFile name="TraceFile"
+			fileName="/var/log/bandaispy/trace.log"
+			filePattern="/var/log/bandaispy/trace-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<CronTriggeringPolicy schedule="0 0 0 * * ?"
+					evaluateOnStartup="true" />
+			</Policies>
+			<DefaultRolloverStrategy />
+			<LevelRangeFilter minLevel="ERROR" maxLevel="TRACE"
+				onMatch="ACCEPT" onMismatch="DENY" />
+		</RollingFile>
+		<RollingFile name="DebugFile"
+			fileName="/var/log/bandaispy/debug.log"
+			filePattern="/var/log/bandaispy/debug-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<CronTriggeringPolicy schedule="0 0 0 * * ?"
+					evaluateOnStartup="true" />
+			</Policies>
+			<DefaultRolloverStrategy max="7"/>
+			<LevelRangeFilter minLevel="ERROR" maxLevel="DEBUG"
+				onMatch="ACCEPT" onMismatch="DENY" />
+		</RollingFile>
+        <RollingFile name="WarnFile"
+            fileName="/var/log/bandaispy/warn.log"
+            filePattern="/var/log/bandaispy/warn-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <CronTriggeringPolicy schedule="0 0 0 * * ?"
+                    evaluateOnStartup="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="7"/>
+            <LevelRangeFilter minLevel="ERROR" maxLevel="WARN"
+                onMatch="ACCEPT" onMismatch="DENY" />
+        </RollingFile>
+        <RollingFile name="ErrorFile"
+            fileName="/var/log/bandaispy/error.log"
+            filePattern="/var/log/bandaispy/error-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %-5p [%t] [%c] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <CronTriggeringPolicy schedule="0 0 0 1 * ? *"
+                    evaluateOnStartup="true" />
+            </Policies>
+            <DefaultRolloverStrategy />
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR"
+                onMatch="ACCEPT" onMismatch="DENY" />
+        </RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="all">
+			<AppenderRef ref="AppFile" />
+			<AppenderRef ref="TraceFile" />
+            <AppenderRef ref="DebugFile" />
+            <AppenderRef ref="WarnFile" />
+            <AppenderRef ref="ErrorFile" />
+		</Root>
+	</Loggers>
 </Configuration>
