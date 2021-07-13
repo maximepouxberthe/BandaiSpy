@@ -169,8 +169,13 @@ public class Main {
 				allowStopBuckets);
 		worker.work();
 		try {
-			worker.awaitTerminationOrForceStop(
-					ConstantsHelper.get(ConstantsProperties.MAX_EXPECTED_DURATION_MILLIS_PROPERTY, Integer.class));
+			if (!worker.awaitTerminationOrForceStop(
+					ConstantsHelper.get(ConstantsProperties.MAX_EXPECTED_DURATION_MILLIS_PROPERTY, Integer.class))) {
+				// Had to force the worker to stop, must retry to be sure to request
+				// all urls
+				LOGGER.warn("The worker was force stopped because of timeout. Retrying with same urls pool");
+				launchWorker(urls, allowStopBuckets);
+			}
 		} catch (final InterruptedException e) {
 			LOGGER.error("Failed to launch worker", e);
 		}

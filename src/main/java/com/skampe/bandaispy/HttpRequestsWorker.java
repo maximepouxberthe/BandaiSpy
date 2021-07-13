@@ -2,10 +2,14 @@ package com.skampe.bandaispy;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.skampe.utils.work.FixedThreadPoolWorker;
 
 public class HttpRequestsWorker extends FixedThreadPoolWorker {
 
+	private static final Logger LOGGER = LogManager.getLogger(HttpRequestsWorker.class);
 	List<String> urls;
 	boolean stopBuckets = false;
 	boolean allowStopBuckets;
@@ -43,6 +47,11 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 		if (allowStopBuckets) {
 			stopBuckets = bool;
 		}
+	}
+
+	@Override
+	protected Logger getLogger() {
+		return LOGGER;
 	}
 
 }

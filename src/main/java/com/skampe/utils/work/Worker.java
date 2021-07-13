@@ -3,12 +3,9 @@ package com.skampe.utils.work;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class Worker {
-
-	private static final Logger LOGGER = LogManager.getLogger(Worker.class);
 
 	protected ThreadPoolExecutor executor = null;
 
@@ -17,6 +14,8 @@ public abstract class Worker {
 		scheduleWork();
 		executor.shutdown();
 	}
+
+	protected abstract Logger getLogger();
 
 	protected abstract void scheduleWork();
 
@@ -34,10 +33,13 @@ public abstract class Worker {
 		return executor.awaitTermination(timeoutMillis, TimeUnit.MILLISECONDS);
 	}
 
-	public void awaitTerminationOrForceStop(final long timeoutMillis) throws InterruptedException {
+	public boolean awaitTerminationOrForceStop(final long timeoutMillis) throws InterruptedException {
 		if (!executor.awaitTermination(timeoutMillis, TimeUnit.MILLISECONDS)) {
-			LOGGER.warn("Force shutdown");
+			getLogger().warn("Force shutdown");
+			getLogger().info(String.format("%s buckets were still active", executor.getPoolSize()));
 			executor.shutdownNow();
+			return false;
 		}
+		return true;
 	}
 }

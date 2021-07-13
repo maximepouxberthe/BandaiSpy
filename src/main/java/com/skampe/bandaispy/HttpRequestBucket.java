@@ -49,11 +49,8 @@ public class HttpRequestBucket implements Work {
 			}
 		}
 		if (workerParent.stopBuckets()) {
-			/*
-			 * LOGGER.debug(String.
-			 * format("End of the work on %s bucket. The worker parent stopped the bucket",
-			 * Thread.currentThread().getName()));
-			 */
+			LOGGER.debug(String.format("End of the work on %s bucket. The worker parent stopped the bucket",
+					Thread.currentThread().getName()));
 		} else {
 			/*
 			 * LOGGER.debug(String.format("End of the work on %s bucket. %s urls requested",
@@ -80,7 +77,7 @@ public class HttpRequestBucket implements Work {
 			}
 		} catch (final SSLException | SocketException | InterruptedIOException e) {
 			if (tries < 5) {
-				LOGGER.warn(String.format("Failed to test url %s, silently retrying", url));
+				LOGGER.info(String.format("Failed to test url %s, silently retrying", url));
 				testUrl(url, tries + 1);
 			} else {
 				LOGGER.error(String.format("Failed to test url %s", url), e);
