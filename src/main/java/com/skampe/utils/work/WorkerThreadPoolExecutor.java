@@ -22,6 +22,7 @@ public class WorkerThreadPoolExecutor extends ThreadPoolExecutor {
 	}
 
 	public void setName(final String name) {
+		LOGGER.info("test5");
 		this.name = name;
 	}
 

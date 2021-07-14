@@ -18,7 +18,9 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 		super(corePoolSize);
 		this.urls = urls;
 		this.allowStopBuckets = allowStopBuckets;
+		LOGGER.info("test1");
 		this.setExecutorName("HttpRequestsWorker Executor");
+		LOGGER.info("test2");
 	}
 
 	@Override
