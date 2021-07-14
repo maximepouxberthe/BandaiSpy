@@ -25,7 +25,7 @@
 				<CronTriggeringPolicy schedule="0 0 0 * * ?"
 					evaluateOnStartup="true" />
 			</Policies>
-			<DefaultRolloverStrategy />
+			<DefaultRolloverStrategy max="1"/>
 			<LevelRangeFilter minLevel="ERROR" maxLevel="TRACE"
 				onMatch="ACCEPT" onMismatch="DENY" />
 		</RollingFile>
@@ -39,7 +39,7 @@
 				<CronTriggeringPolicy schedule="0 0 0 * * ?"
 					evaluateOnStartup="true" />
 			</Policies>
-			<DefaultRolloverStrategy max="7"/>
+			<DefaultRolloverStrategy max="2"/>
 			<LevelRangeFilter minLevel="ERROR" maxLevel="DEBUG"
 				onMatch="ACCEPT" onMismatch="DENY" />
 		</RollingFile>

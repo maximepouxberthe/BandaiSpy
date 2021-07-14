@@ -18,6 +18,7 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 		super(corePoolSize);
 		this.urls = urls;
 		this.allowStopBuckets = allowStopBuckets;
+		this.setExecutorName("HttpRequestsWorker Executor");
 	}
 
 	@Override
@@ -27,15 +28,16 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 		final int number = urls.size() / corePoolSize;
 		int offset = 0;
 		for (int i = 0; i < corePoolSize; i++) {
+			HttpRequestBucket bucket;
 			if (remaider > 0) {
-				this.scheduleBucket(
-						new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset + 1), this));
+				bucket = new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset + 1), this);
 				remaider--;
 				offset++;
 			} else {
-				this.scheduleBucket(
-						new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset), this));
+				bucket = new HttpRequestBucket(urls.subList(i * number + offset, (i + 1) * number + offset), this);
 			}
+			bucket.setName(String.format("Bucket %s", i));
+			this.scheduleBucket(bucket);
 		}
 	}
 

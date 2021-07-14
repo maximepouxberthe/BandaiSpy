@@ -3,6 +3,7 @@ package com.skampe.utils.structures;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,16 @@ public class MySQLDatabaseInstance {
 		try {
 			connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
 		} catch (final CommunicationsException e) {
-			LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s", nbRetries));
+			if (nbRetries < 50) {
+				LOGGER.info(String.format("Failed to connect to DB. nbRetries: %s", nbRetries));
+			} else {
+				final long dbUnavailableTimeMillis = 127500 + (nbRetries - 50) * 5000;
+				LOGGER.warn(String.format("Failed to connect to DB. nbRetries: %s. BB is unavailable since %s",
+						nbRetries,
+						String.format("%02d min, %02d sec", TimeUnit.MILLISECONDS.toMinutes(dbUnavailableTimeMillis),
+								TimeUnit.MILLISECONDS.toSeconds(dbUnavailableTimeMillis) - TimeUnit.MINUTES
+										.toSeconds(TimeUnit.MILLISECONDS.toMinutes(dbUnavailableTimeMillis)))));
+			}
 			try {
 				Thread.sleep(Math.min(5000, (long) 100 * nbRetries));
 				connect(nbRetries + 1);

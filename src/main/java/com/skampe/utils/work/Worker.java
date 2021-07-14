@@ -1,13 +1,12 @@
 package com.skampe.utils.work;
 
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
 
 public abstract class Worker {
 
-	protected ThreadPoolExecutor executor = null;
+	protected WorkerThreadPoolExecutor executor = null;
 
 	public void work() {
 		initExecutor();
@@ -17,11 +16,15 @@ public abstract class Worker {
 
 	protected abstract Logger getLogger();
 
+	protected void setExecutorName(final String name) {
+		executor.setName(name);
+	}
+
 	protected abstract void scheduleWork();
 
 	protected abstract void initExecutor();
 
-	protected void scheduleBucket(final Work bucket) {
+	protected void scheduleBucket(final Bucket bucket) {
 		executor.execute(bucket);
 	}
 

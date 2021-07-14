@@ -16,11 +16,11 @@ import com.skampe.utils.constants.OkHttpConstants;
 import com.skampe.utils.helpers.FileHelper;
 import com.skampe.utils.helpers.JavaNetHelper;
 import com.skampe.utils.helpers.OkHttpHelper;
-import com.skampe.utils.work.Work;
+import com.skampe.utils.work.Bucket;
 
 import okhttp3.Response;
 
-public class HttpRequestBucket implements Work {
+public class HttpRequestBucket extends Bucket {
 
 	private static final Logger LOGGER = LogManager.getLogger(HttpRequestBucket.class);
 
@@ -58,6 +58,7 @@ public class HttpRequestBucket implements Work {
 	}
 
 	private void testUrl(final String url, final int tries) throws IOException {
+		LOGGER.trace(String.format("Requesting url %s, try %s", url, tries));
 		try {
 			if (JavaNetHelper.getStatus(url) == HttpStatusConstants.SC_200_OK) {
 				final Response response = OkHttpHelper.executeRequest(
