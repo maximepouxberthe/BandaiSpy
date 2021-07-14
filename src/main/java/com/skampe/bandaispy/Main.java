@@ -29,6 +29,8 @@ public class Main {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
+	private static int workerCount = 0;
+
 	public static void main(final String[] args) {
 		if (initConstants() && initScheduler() && initDatabase() && initBot()) {
 			initTwitter();
@@ -167,8 +169,8 @@ public class Main {
 		final HttpRequestsWorker worker = new HttpRequestsWorker(
 				ConstantsHelper.get(ConstantsProperties.NB_REQUEST_THREADS_PROPERTY, Integer.class), urls,
 				allowStopBuckets);
-		LOGGER.info("la");
-		worker.work();
+		workerCount++;
+		worker.work(String.format("HttpRequestsWorker %s", workerCount));
 		try {
 			if (!worker.awaitTerminationOrForceStop(
 					ConstantsHelper.get(ConstantsProperties.MAX_EXPECTED_DURATION_MILLIS_PROPERTY, Integer.class))) {

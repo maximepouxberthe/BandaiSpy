@@ -8,8 +8,8 @@ public abstract class Worker {
 
 	protected WorkerThreadPoolExecutor executor = null;
 
-	public void work() {
-		initExecutor();
+	public void work(final String workName) {
+		initExecutor(workName);
 		scheduleWork();
 		executor.shutdown();
 	}
@@ -17,14 +17,12 @@ public abstract class Worker {
 	protected abstract Logger getLogger();
 
 	protected void setExecutorName(final String name) {
-		getLogger().info("test4");
 		executor.setName(name);
-		getLogger().info("test6");
 	}
 
 	protected abstract void scheduleWork();
 
-	protected abstract void initExecutor();
+	protected abstract void initExecutor(String workName);
 
 	protected void scheduleBucket(final Bucket bucket) {
 		executor.execute(bucket);

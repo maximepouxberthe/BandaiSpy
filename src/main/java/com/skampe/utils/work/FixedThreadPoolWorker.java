@@ -12,9 +12,10 @@ public abstract class FixedThreadPoolWorker extends Worker {
 	}
 
 	@Override
-	protected void initExecutor() {
+	protected void initExecutor(final String workName) {
 		executor = new WorkerThreadPoolExecutor(corePoolSize, corePoolSize, 0L, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<>());
+		executor.setName(workName);
 	}
 
 }
