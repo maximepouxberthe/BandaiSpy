@@ -17,7 +17,9 @@ public abstract class Worker {
 	protected abstract Logger getLogger();
 
 	protected void setExecutorName(final String name) {
+		getLogger().info("test4");
 		executor.setName(name);
+		getLogger().info("test6");
 	}
 
 	protected abstract void scheduleWork();
