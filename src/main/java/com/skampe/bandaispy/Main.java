@@ -167,6 +167,7 @@ public class Main {
 		final HttpRequestsWorker worker = new HttpRequestsWorker(
 				ConstantsHelper.get(ConstantsProperties.NB_REQUEST_THREADS_PROPERTY, Integer.class), urls,
 				allowStopBuckets);
+		LOGGER.info("la");
 		worker.work();
 		try {
 			if (!worker.awaitTerminationOrForceStop(
