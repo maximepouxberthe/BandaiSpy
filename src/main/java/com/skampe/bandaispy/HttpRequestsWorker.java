@@ -22,7 +22,6 @@ public class HttpRequestsWorker extends FixedThreadPoolWorker {
 
 	@Override
 	protected void scheduleWork() {
-		LOGGER.info("ici");
 		int remaider = urls.size() % corePoolSize;
 		final int number = urls.size() / corePoolSize;
 		int offset = 0;

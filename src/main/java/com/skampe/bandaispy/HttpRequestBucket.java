@@ -58,7 +58,6 @@ public class HttpRequestBucket extends Bucket {
 	}
 
 	private void testUrl(final String url, final int tries) throws IOException {
-		LOGGER.trace(String.format("Requesting url %s, try %s", url, tries));
 		try {
 			if (JavaNetHelper.getStatus(url) == HttpStatusConstants.SC_200_OK) {
 				final Response response = OkHttpHelper.executeRequest(
